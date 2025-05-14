@@ -6,7 +6,7 @@ fun main() {
             "2" -> feeCalculate(
                 readln().toInt(), readln(), try {
                     readln().toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     0
                 }
             )
