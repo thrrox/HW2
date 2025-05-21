@@ -16,7 +16,7 @@ fun main() {
 }
 
 fun feeCalculate(amount: Int, card: String = "мир", limit: Int = 0) {
-    if (amount > 150000 || limit >= 600000) {
+    if (amount > 150000 || amount + limit >= 600000) {
         println("карта заблокирована")
     } else {
         val fee = when (card) {
@@ -28,8 +28,10 @@ fun feeCalculate(amount: Int, card: String = "мир", limit: Int = 0) {
             }
             "mastercard" -> if (limit <= 75000 && amount <= 75000) {
                 0
+            } else if (limit >= 75000) {
+                amount * 0.006 + 20
             } else {
-                (amount - 75000) * 0.006 + 20
+                (amount - (75000 - limit)) * 0.006 + 20
             }
             else -> 0
         }
@@ -39,12 +41,12 @@ fun feeCalculate(amount: Int, card: String = "мир", limit: Int = 0) {
 
 fun minutes(num: Int): String {
     val num1 = num / 60
-    if (num1 % 10 == 1 || num1 == 1) {
+    if ((num1 % 10 == 1 || num1 == 1) && num1 != 11) {
         return "минуту"
-    } else if ((num1 % 10 == 5) || (11 <= num1 && num1 <= 14)) {
-        return "минут"
-    } else {
+    } else if (((num1 % 10 == 2) || (num1 % 10 == 3) || (num1 % 10 == 4)) && !(11 <= num1 && num1 <= 14)) {
         return "минуты"
+    } else {
+        return "минут"
     }
 }
 
